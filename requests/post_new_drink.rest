@@ -1,0 +1,25 @@
+POST http://localhost:3001/api/drinks/
+Content-Type: application/json
+
+{
+  "name": "Black Russian",
+  "ingredients": [
+    ["vodka", 5, "cl"],
+    ["coffee liqueur", 2, "cl"],
+    ["maraschino cherry", 1, null],
+    ["cola (optional)", null, null]
+  ],
+  "imageUrl":"blackRussian.jpg",
+  "glass": "On The Rocks",
+  "method": ["build","stir"],
+  "garnish": ["maraschino cherry"],
+  "categories": ["cocktail" ],
+  "page": null,
+  "credits":[["thespruceeats.com", "image"], ["BBC goodfood", "recipe"]],
+  "steps": [
+    "Put the vodka and the coffee liqueur into a glass filled with ice.",
+    "Stir gently for about 30 secs.",
+    "Add the cherry and serve. ",
+    "Optionally top up the glass with chilled cola if you prefer a longer drink."
+  ]    
+}
