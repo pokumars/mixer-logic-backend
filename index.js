@@ -1,9 +1,11 @@
 const express = require('express');
 const morgan = require('morgan');
+const path = require('path');
 const cors = require('cors');
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static('build'));
 
 let drinks = [
   {
@@ -146,22 +148,25 @@ const requestLogger = (request, response, next) => {
   console.log('--------------- END ---------------');
   next();
 };
-app.use(morgan('dev'));
-/*morgan.token('body', (req,res) => JSON.stringify(req.body));
+//console.log(dateTime);
+//app.use(morgan('dev'));
+morgan.token('body', (req,res) => JSON.stringify(req.body));
 app.use(morgan((tokens, req, res) => {
   return[
     tokens.method(req, res),
     tokens.url(req, res),
     tokens.status(req, res),
     tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms',
-    tokens.body(req, res)
+    tokens['response-time'](req, res), 'ms', '---[',
+    tokens.date('web'), ']---',
+    tokens.body(req, res),
   ].join(' ');
-}));*/
-//app.use(requestLogger);//this line m,ust come after app.use(express.json()); because requestLogger needs json to work.
+}));
+//app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
-app.get('/',(req, res) => {
-  res.send('<h1>Hello World!</h1><br><p>What you are looking for might be in /api/drinks/</p>');
+__dirname = path.resolve(path.dirname(''));
+app.get('/drink/*', function response(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.get('/api/drinks', (req, res) => {
@@ -172,7 +177,7 @@ app.get('/api/drinks', (req, res) => {
 app.post('/api/drinks', (req, res) => {
   const body = req.body;
   /*TODO: when users are able to add their own drinks, some of the drink params
-  will be hard for them to add so mmake the front end so that they can do so
+  will be hard for them to add so make the front end so that they can do so
   easily. e.g a dropdown for method since they may not know what it is*/
 
 
@@ -228,6 +233,6 @@ const unknownEndpoint = (req, res) => {
 
 app.use(unknownEndpoint);
 
-const PORT = 3001;
+const PORT = 3003;
 app.listen(PORT);
 console.log(`Server running on port ${PORT}`);

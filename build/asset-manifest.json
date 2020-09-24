@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.3a196fdf.chunk.css",
+    "main.js": "/static/js/main.b4e7ee49.chunk.js",
+    "main.js.map": "/static/js/main.b4e7ee49.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.7e10d39c.js",
+    "runtime-main.js.map": "/static/js/runtime-main.7e10d39c.js.map",
+    "static/js/2.d6912991.chunk.js": "/static/js/2.d6912991.chunk.js",
+    "static/js/2.d6912991.chunk.js.map": "/static/js/2.d6912991.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.120fc31b62f08494baa36434cd521f68.js": "/precache-manifest.120fc31b62f08494baa36434cd521f68.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.3a196fdf.chunk.css.map": "/static/css/main.3a196fdf.chunk.css.map",
+    "static/js/2.d6912991.chunk.js.LICENSE.txt": "/static/js/2.d6912991.chunk.js.LICENSE.txt",
+    "static/media/404-gif.gif": "/static/media/404-gif.03692112.gif",
+    "static/media/cocktail-light-green.svg": "/static/media/cocktail-light-green.b65eb424.svg",
+    "static/media/cv-icon.svg": "/static/media/cv-icon.9377864d.svg",
+    "static/media/cv_oheneba_pokumarboah.pdf": "/static/media/cv_oheneba_pokumarboah.34885f43.pdf",
+    "static/media/email-icon.svg": "/static/media/email-icon.9478f1f5.svg",
+    "static/media/github-icon.svg": "/static/media/github-icon.7be5b44b.svg",
+    "static/media/linkedin-icon.svg": "/static/media/linkedin-icon.838f6035.svg",
+    "static/media/SearchBar.css": "/static/media/search.34035f1e.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7e10d39c.js",
+    "static/js/2.d6912991.chunk.js",
+    "static/css/main.3a196fdf.chunk.css",
+    "static/js/main.b4e7ee49.chunk.js"
+  ]
+}
