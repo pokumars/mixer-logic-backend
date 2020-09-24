@@ -1,17 +1,20 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 let drinks = [
   {
     name: 'Vodka Martini',
+    id: 1,
     dummyId: 1,
     ingredients: [
       ['vodka', 4, 'cl'],
       ['dry vermouth', 1, 'dash']
     ],
-    imageUrl: 'vodkaMartini.jpg',
+    imageUrl: "https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/vodkaMartini.jpg",
     glass: 'cocktail',
     method: ['stir'],
     garnish: ['olives', ' lemon twist'],
@@ -31,6 +34,7 @@ let drinks = [
   {
     name: 'Bloody Mary',
     dummyId: 2,
+    id: 2,
     ingredients: [
       ['vodka', 2, 'cl'],
       ['lime vodka', 2, 'cl'],
@@ -40,7 +44,7 @@ let drinks = [
       ['tabasco/hot sauce ', 3, 'drops'],
       ['worcestershire sauce', 2, 'dashes']
     ],
-    imageUrl: 'bloodyMaryCocktail.jpg',
+    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/bloodyMaryCocktail.jpg',
     glass: 'On The Rocks',
     method: ['stir'],
     garnish: ['celery stalk', 'cucumber'],
@@ -58,6 +62,7 @@ let drinks = [
   {
     name: 'Spicy Mule',
     dummyId: 3,
+    id: 3,
     ingredients: [
       ['vodka', 4, 'cl'],
       ['ginger beer', 10, 'cl'],
@@ -65,7 +70,7 @@ let drinks = [
       ['fresh ginger', null, null],
       ['chili pepper', null, null]
     ],
-    imageUrl: 'spicyMule.jpg',
+    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/spicyMule.jpg',
     glass: 'highball',
     method: ['muddle', 'build'],
     garnish: ['cucumber stick', 'lime wedge'],
@@ -81,6 +86,7 @@ let drinks = [
   },
   {
     name: 'Mango Breeze',
+    id: 4,
     dummyId: 4,
     ingredients: [
       ['mango flavoured vodka', 4, 'cl'],
@@ -88,7 +94,7 @@ let drinks = [
       ['grapefruit juice', 6, 'cl'],
       ['slice of mango', null, null]
     ],
-    imageUrl: 'mangoBreeze.jpg',
+    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/mangoBreeze.jpg',
     glass: 'highball',
     method: ['build'],
     garnish: ['slice of mango'],
@@ -105,6 +111,7 @@ let drinks = [
   {
     name: 'Mini Mary',
     dummyId: 5,
+    id: 5,
     ingredients: [
       ['vodka', 2, 'cl'],
       ['tomato juice', 2, 'cl'],
@@ -114,7 +121,7 @@ let drinks = [
       ['salt and pepper', null, null],
       ['celery', null, null]
     ],
-    imageUrl: 'miniMary.jpg',
+    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/miniMary.jpg',
     glass: 'shot',
     method: ['shake'],
     garnish: ['cherry tomato', 'celery stalk'],
@@ -190,13 +197,14 @@ app.post('/api/drinks', (req, res) => {
   };
 
   //console.log(drink);
+  drinks = drinks.concat(drink);
   res.json(drink);
 });
 
 app.get('/api/drinks/:id', (req, res) => {
   const id = Number(req.params.id);
   console.log('request id -', id,);
-  const drink = drinks.find(drink => drink.dummyId ===id);
+  const drink = drinks.find(drink => drink.id ===id);
   //console.log(drink);
   if(drink) {
     res.json(drink);
