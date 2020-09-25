@@ -140,16 +140,6 @@ let drinks = [
   }
 ];
 
-//This middleware logs each request. middleware takes 3 params: req, res and next
-const requestLogger = (request, response, next) => {
-  console.log('Method', request.method);
-  console.log('Path', request.path);
-  console.log('Body', request.body);
-  console.log('--------------- END ---------------');
-  next();
-};
-//console.log(dateTime);
-//app.use(morgan('dev'));
 morgan.token('body', (req,res) => JSON.stringify(req.body));
 app.use(morgan((tokens, req, res) => {
   return[
