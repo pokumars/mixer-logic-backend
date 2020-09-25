@@ -164,10 +164,7 @@ app.use(morgan((tokens, req, res) => {
 }));
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
-__dirname = path.resolve(path.dirname(''));
-app.get('/drink/*', function response(req, res) {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+
 
 app.get('/api/drinks', (req, res) => {
   console.log('size of drinks is', drinks.length);
@@ -224,6 +221,11 @@ app.delete('/api/drinks/:id', (req, res)=> {
   drinks = drinks.filter(drink => drink.id !== id);
   console.log('size of drinks is', drinks.length);
   res.status(204).end();
+});
+
+__dirname = path.resolve(path.dirname(''));
+app.get('/*', function response(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 //middleware function that is only called if no route handles the HTTP request
