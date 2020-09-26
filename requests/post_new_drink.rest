@@ -2,23 +2,59 @@ POST http://localhost:3001/api/drinks/
 Content-Type: application/json
 
   {
-    "name": "White Russian",
-    "ingredients": [
-      ["vodka", 5, "cl"],
-      ["coffee liqueur", 2, "cl"],
-      ["fresh cream (or milk)", 3, "cl"],
-      ["ice", null, null]
-    ],
-    "imageUrl":"https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/whiteRussian.jpg",
-    "glass": "On The Rocks",
-    "method": ["build","stir"],
-    "garnish": [null],
-    "categories": ["cocktail"],
-    "alcohols": ["vodka", "coffee liqueur"],
-    "page": null,
-    "credits":[["liquor.com", "image"]],
-    "steps": [
-     "Add the vodka and coffee liqueur to a glass with ice.",
-     "Top with cream and stir."
-    ]    
-  }
+      "name": "Mini Sea Breeze",
+      "ingredients": [
+        [
+          "grapefruit flavoured vodka",
+          2,
+          "cl"
+        ],
+        [
+          "cranberry juice",
+          2,
+          "cl"
+        ],
+        [
+          "sugar",
+          null,
+          null
+        ],
+        [
+          "pink grapefruit",
+          null,
+          "slice"
+        ]
+      ],
+      "imageUrl": "https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/miniSeaBreeze.jpg",
+      "glass": "shot",
+      "method": [
+        "build"
+      ],
+      "garnish": [
+        "pink grapefruit",
+        "sugar"
+      ],
+      "categories": [
+        "shot",
+        "rituals"
+      ],
+      "alcohols": [
+        "grapefruit flavoured vodka"
+      ],
+      "page": 34,
+      "credits": [
+        [
+          "Finlandia Vodka",
+          "image"
+        ],
+        [
+          "Finlandia Vodka",
+          "recipe"
+        ]
+      ],
+      "steps": [
+        "Pour the vodka into a mixing glass filled with ice and stir.",
+        "Strain into a shot glass.",
+        "garnish with a grapefruit slice sprinkled with sugar and enjoy it after the shot."
+      ]
+    }

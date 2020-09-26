@@ -1,8 +1,8 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
+const Drink = require('./database_models/drink');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -22,46 +22,7 @@ app.use(morgan((tokens, req, res) => {
 }));
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
-if (process.argv.length < 3) {
-  console.log('Please provide the password as an argument: node mongo.js <password>');
-  process.exit(1);
-}
-const password = process.argv[2];
 
-const url = `mongodb+srv://ohe_boomin_want_some_more:${password}@drinkcluster0.trkxv.mongodb.net/mixer-logic-test?retryWrites=true&w=majority`;
-
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
-
-//TODO the data sent from the frontend should match this on structure
-const drinkSchema = new mongoose.Schema({
-  name: String,
-  imageUrl: String,
-  glass: String,
-  method: [String],
-  garnish: [String],
-  categories: [String],
-  alcohols: [String],
-  page: Number,
-  credits:[[String]],
-  ingredients: [[]],
-  steps: [String]
-});
-
-drinkSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    //reassign the default._id to be id and to string. It is otherwise an object and that may be problematic when writing tests
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id; //remove._id
-    delete returnedObject.__v; //remove __v whcch is the version number of the db
-  }
-});
-
-const Drink = mongoose.model('Drink', drinkSchema);
-
-/* Drink.find({}).then(res => {
-  console.log('line 52', res);
-  mongoose.connection.close();
-}); */
 
 app.get('/api/drinks', (request, response) => {
   console.time('fetch drinks');
