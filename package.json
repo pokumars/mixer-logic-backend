@@ -4,7 +4,7 @@
   "description": "Backend for mixer logic drinks page",
   "main": "index.js",
   "scripts": {
-    "build:ui": "rm -rf build && cd ../mixer-logic/ && npm run build --prod && cp -r build ../mixer-logic-backend/",
+    "build:ui": "rm -rf build && cd ../mixer-logic/ && git pull && npm run build --prod && cp -r build ../mixer-logic-backend/",
     "deploy:full": "git pull && npm run build:ui && npm run pm2:start",
     "pm2:start": "sudo pm2 delete 'mixer-logic' && sudo pm2 start index.js --name 'mixer-logic'",
     "test": "echo \"Error: no test specified\" && exit 1",
