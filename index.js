@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const morgan = require('morgan');
 const path = require('path');
 const cors = require('cors');
@@ -6,139 +7,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static('build'));
-
-let drinks = [
-  {
-    name: 'Vodka Martini',
-    id: 1,
-    dummyId: 1,
-    ingredients: [
-      ['vodka', 4, 'cl'],
-      ['dry vermouth', 1, 'dash']
-    ],
-    imageUrl: "https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/vodkaMartini.jpg",
-    glass: 'cocktail',
-    method: ['stir'],
-    garnish: ['olives', ' lemon twist'],
-    categories: ['classic', 'martini', 'cocktail'],
-    alcohols: ['vodka', 'dry vermouth'],
-    page: 15,
-    credits: [['Finlandia Vodka', 'image'], ['Finlandia Vodka', 'recipe']],
-    steps: [
-      'Chill both the martini and mixing glasses',
-      'Pour the vodka, followed by the dry vermouth in an ice-filled mixing glass and stir.',
-      'Strain into a chilled martini glass.',
-      'Olive - or twist? Your choice.',
-      'Cheers'
-    ]
-
-  },
-  {
-    name: 'Bloody Mary',
-    dummyId: 2,
-    id: 2,
-    ingredients: [
-      ['vodka', 2, 'cl'],
-      ['lime vodka', 2, 'cl'],
-      ['lemon juice', 1, 'cl'],
-      ['tomato juice', 8, 'cl'],
-      ['salt & pepper'],
-      ['tabasco/hot sauce ', 3, 'drops'],
-      ['worcestershire sauce', 2, 'dashes']
-    ],
-    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/bloodyMaryCocktail.jpg',
-    glass: 'On The Rocks',
-    method: ['stir'],
-    garnish: ['celery stalk', 'cucumber'],
-    categories: ['classic', 'ordinary drink'],
-    alcohols: ['vodka', 'lime vodka'],
-    page: 16,
-    credits: [['Finlandia Vodka', 'image'], ['Finlandia Vodka', 'recipe']],
-    steps: [
-      'Add the ingredients into the mixer',
-      'Mix and chill together with ice',
-      'Strain into a rocks glass',
-      'Garnish with celery and cucumber'
-    ]
-  },
-  {
-    name: 'Spicy Mule',
-    dummyId: 3,
-    id: 3,
-    ingredients: [
-      ['vodka', 4, 'cl'],
-      ['ginger beer', 10, 'cl'],
-      ['fresh lime juice', 2, 'cl'],
-      ['fresh ginger', null, null],
-      ['chili pepper', null, null]
-    ],
-    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/spicyMule.jpg',
-    glass: 'highball',
-    method: ['muddle', 'build'],
-    garnish: ['cucumber stick', 'lime wedge'],
-    categories: ['vodka', 'cocktail'],
-    alcohols: ['vodka', 'ginger beer'],
-    page: 24,
-    credits: [['Finlandia Vodka', 'image'], ['Finlandia Vodka', 'recipe']],
-    steps: [
-      'Muddle the ginger in a glass with the sliced pepper.',
-      'Add the ice, lime juice and ginger beer.',
-      'Finally, add the vodka and a lime and fresh chili pepper to garnish'
-    ]
-  },
-  {
-    name: 'Mango Breeze',
-    id: 4,
-    dummyId: 4,
-    ingredients: [
-      ['mango flavoured vodka', 4, 'cl'],
-      ['cranberry juice', 6, 'cl'],
-      ['grapefruit juice', 6, 'cl'],
-      ['slice of mango', null, null]
-    ],
-    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/mangoBreeze.jpg',
-    glass: 'highball',
-    method: ['build'],
-    garnish: ['slice of mango'],
-    categories: ['cocktail'],
-    alcohols: ['mango flavoured vodka'],
-    page: 31,
-    credits: [['Finlandia Vodka', 'image'], ['Finlandia Vodka', 'recipe']],
-    steps: [
-      'Fill a tall glass with ice and stir it round',
-      'Add the vodka.',
-      'Pour in the grapefruit and cranberry juice and garnish with a mango slice.'
-    ]
-  },
-  {
-    name: 'Mini Mary',
-    dummyId: 5,
-    id: 5,
-    ingredients: [
-      ['vodka', 2, 'cl'],
-      ['tomato juice', 2, 'cl'],
-      ['hot chili sauce', 1, 'drop'],
-      ['fresh lemon juice', 1, 'dash'],
-      ['worcestershire sauce', 4, 'dash'],
-      ['salt and pepper', null, null],
-      ['celery', null, null]
-    ],
-    imageUrl: 'https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/miniMary.jpg',
-    glass: 'shot',
-    method: ['shake'],
-    garnish: ['cherry tomato', 'celery stalk'],
-    categories: ['shot', 'short drinks'],
-    alcohols: ['vodka'],
-    page: 33,
-    credits: [['Finlandia Vodka', 'image'], ['Finlandia Vodka', 'recipe']],
-    steps: [
-      'Put the salt, the juices and the sauces in an ice-filled shaker',
-      'Introduce the vodka to the ingredients in the ice-filled shaker',
-      'Shake and strain into a shot glass.',
-      'Finish with black pepper and celery.'
-    ]
-  }
-];
 
 morgan.token('body', (req,res) => JSON.stringify(req.body));
 app.use(morgan((tokens, req, res) => {
@@ -154,11 +22,55 @@ app.use(morgan((tokens, req, res) => {
 }));
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
+if (process.argv.length < 3) {
+  console.log('Please provide the password as an argument: node mongo.js <password>');
+  process.exit(1);
+}
+const password = process.argv[2];
 
+const url = `mongodb+srv://ohe_boomin_want_some_more:${password}@drinkcluster0.trkxv.mongodb.net/mixer-logic-test?retryWrites=true&w=majority`;
 
-app.get('/api/drinks', (req, res) => {
-  console.log('size of drinks is', drinks.length);
-  res.json(drinks);
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
+
+//TODO the data sent from the frontend should match this on structure
+const drinkSchema = new mongoose.Schema({
+  name: String,
+  imageUrl: String,
+  glass: String,
+  method: [String],
+  garnish: [String],
+  categories: [String],
+  alcohols: [String],
+  page: Number,
+  credits:[[String]],
+  ingredients: [[]],
+  steps: [String]
+});
+
+drinkSchema.set('toJSON', {
+  transform: (document, returnedObject) => {
+    //reassign the default._id to be id and to string. It is otherwise an object and that may be problematic when writing tests
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id; //remove._id
+    delete returnedObject.__v; //remove __v whcch is the version number of the db
+  }
+});
+
+const Drink = mongoose.model('Drink', drinkSchema);
+
+/* Drink.find({}).then(res => {
+  console.log('line 52', res);
+  mongoose.connection.close();
+}); */
+
+app.get('/api/drinks', (request, response) => {
+  console.time('fetch drinks');
+  Drink.find({}).then(drinks => {
+    //console.trace();
+    console.log('size of drinks is', drinks.length);
+    response.json(drinks);
+    console.timeEnd('fetch drinks');
+  });
 });
 
 app.post('/api/drinks', (req, res) => {
@@ -189,29 +101,34 @@ app.post('/api/drinks', (req, res) => {
   };
 
   //console.log(drink);
-  drinks = drinks.concat(drink);
+  //drinks = drinks.concat(drink);
   res.json(drink);
 });
 
-app.get('/api/drinks/:id', (req, res) => {
-  const id = Number(req.params.id);
-  console.log('request id -', id,);
-  const drink = drinks.find(drink => drink.id ===id);
-  //console.log(drink);
-  if(drink) {
-    res.json(drink);
-  }else {
-    res.status(404).end();
-  }
+app.get('/api/drinks/:id', (request, response) => {
+  //TODO: make a good landing page for when the drinkk cant be found. maybe spinner and and after 3 seconds a redirect to 404 page
+  Drink.findById(request.params.id)
+    .then(drink => {
+      if (drink) {
+        console.log(drink.name, 'has been fetched from db')
+        response.json(drink);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      response.status(500).end();
+    });
 });
 
-app.delete('/api/drinks/:id', (req, res)=> {
+/*app.delete('/api/drinks/:id', (req, res)=> {
   console.log('a delete request');
   const id = Number(req.params.id);
   drinks = drinks.filter(drink => drink.id !== id);
   console.log('size of drinks is', drinks.length);
   res.status(204).end();
-});
+});*/
 
 __dirname = path.resolve(path.dirname(''));
 app.get('/*', function response(req, res) {
