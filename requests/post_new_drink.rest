@@ -1,47 +1,62 @@
-POST http://localhost:3001/api/drinks/
+POST http://localhost:3003/api/drinks/
 Content-Type: application/json
 
   {
-      "name": "Mini Sea Breeze",
+      "name": "Mini Mary",
       "ingredients": [
         [
-          "grapefruit flavoured vodka",
+          "vodka",
           2,
           "cl"
         ],
         [
-          "cranberry juice",
+          "tomato juice",
           2,
           "cl"
         ],
         [
-          "sugar",
+          "hot chili sauce",
+          1,
+          "drop"
+        ],
+        [
+          "fresh lemon juice",
+          1,
+          "dash"
+        ],
+        [
+          "worcestershire sauce",
+          4,
+          "dash"
+        ],
+        [
+          "salt and pepper",
           null,
           null
         ],
         [
-          "pink grapefruit",
+          "celery",
           null,
-          "slice"
+          null
         ]
       ],
-      "imageUrl": "https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/miniSeaBreeze.jpg",
+      "imageUrl": "https://mixer-logic-p2images.s3.eu-central-1.amazonaws.com/miniMary.jpg",
       "glass": "shot",
       "method": [
-        "build"
+        "shake"
       ],
       "garnish": [
-        "pink grapefruit",
-        "sugar"
+        "cherry tomato",
+        "celery stalk"
       ],
       "categories": [
         "shot",
-        "rituals"
+        "short drinks"
       ],
       "alcohols": [
-        "grapefruit flavoured vodka"
+        "vodka"
       ],
-      "page": 34,
+      "page": 33,
       "credits": [
         [
           "Finlandia Vodka",
@@ -53,8 +68,9 @@ Content-Type: application/json
         ]
       ],
       "steps": [
-        "Pour the vodka into a mixing glass filled with ice and stir.",
-        "Strain into a shot glass.",
-        "garnish with a grapefruit slice sprinkled with sugar and enjoy it after the shot."
+        "Put the salt, the juices and the sauces in an ice-filled shaker",
+        "Introduce the vodka to the ingredients in the ice-filled shaker",
+        "Shake and strain into a shot glass.",
+        "Finish with black pepper and celery."
       ]
     }

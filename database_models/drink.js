@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-
 require('dotenv').config()
 const mongoose = require('mongoose');
 const { currentLocalDateTime } = require('../utility/helperFunctions');

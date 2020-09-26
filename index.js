@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
+const { currentLocalDateTime } = require('./utility/helperFunctions');
 const cors = require('cors');
 const Drink = require('./database_models/drink');
 const app = express();
@@ -15,9 +16,8 @@ app.use(morgan((tokens, req, res) => {
     tokens.url(req, res),
     tokens.status(req, res),
     tokens.res(req, res, 'content-length'), '-',
-    tokens['response-time'](req, res), 'ms', '---[',
-    tokens.date('web'), ']---',
-    tokens.body(req, res),
+    tokens['response-time'](req, res), 'ms',
+    currentLocalDateTime(),
   ].join(' ');
 }));
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
@@ -34,21 +34,20 @@ app.get('/api/drinks', (request, response) => {
   });
 });
 
-app.post('/api/drinks', (req, res) => {
-  const body = req.body;
+app.post('/api/drinks', (request, response) => {
+  const body = request.body;
   /*TODO: when users are able to add their own drinks, some of the drink params
   will be hard for them to add so make the front end so that they can do so
   easily. e.g a dropdown for method since they may not know what it is*/
 
-
-  if(!body.name |!body.ingredients |!body.glass |!body.imageUrl |!body.steps) {
-    console.error('the new drink object is missing some values');
-    return res.status(400).json({
+  if(!body.name |!body.ingredients |!body.glass |!body.imageUrl |!body.steps |!body.credits) {
+    console.error('the new drink object is missing some values', body);
+    return response.status(400).json({
       error: 'the new drink object is missing some values'
     });
   }
-
-  const drink =   { //TODO the data sent from the frontend should match this on structure
+  //TODO the data sent from the frontend should match this on structure
+  const drink = new Drink({
     'name': body.name,
     'imageUrl':body.imageUrl,
     'glass': body.glass,
@@ -59,11 +58,11 @@ app.post('/api/drinks', (req, res) => {
     'credits':body.credits,
     'ingredients': body.ingredients,
     'steps': body.steps
-  };
-
-  //console.log(drink);
-  //drinks = drinks.concat(drink);
-  res.json(drink);
+  });
+  drink.save().then(savedDrink => {
+    console.log('drink jas just been saved as-- ', savedDrink);
+    response.json(savedDrink);
+  });
 });
 
 app.get('/api/drinks/:id', (request, response) => {
@@ -71,7 +70,7 @@ app.get('/api/drinks/:id', (request, response) => {
   Drink.findById(request.params.id)
     .then(drink => {
       if (drink) {
-        console.log(drink.name, 'has been fetched from db')
+        console.log(drink.name, 'has been fetched from db');
         response.json(drink);
       } else {
         response.status(404).end();
