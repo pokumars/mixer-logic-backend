@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const { currentLocalDateTime } = require('./utility/helperFunctions');
+const { currentLocalDateTime, getAllPropertyNames } = require('./utility/helperFunctions');
 const cors = require('cors');
 const Drink = require('./database_models/drink');
 const app = express();
@@ -54,6 +54,7 @@ app.post('/api/drinks', (request, response) => {
     'method': body.method || [],
     'garnish':body.garnish || [],
     'categories': body.categories || [],
+    'alcohols': body.alcohols || [],
     'page': body.page || null,
     'credits':body.credits,
     'ingredients': body.ingredients,
@@ -65,7 +66,7 @@ app.post('/api/drinks', (request, response) => {
   });
 });
 
-app.get('/api/drinks/:id', (request, response) => {
+app.get('/api/drinks/:id', (request, response, next) => {
   //TODO: make a good landing page for when the drinkk cant be found. maybe spinner and and after 3 seconds a redirect to 404 page
   Drink.findById(request.params.id)
     .then(drink => {
@@ -77,18 +78,20 @@ app.get('/api/drinks/:id', (request, response) => {
       }
     })
     .catch(error => {
-      console.log(error);
-      response.status(500).end();
+      next(error);
     });
 });
 
-/*app.delete('/api/drinks/:id', (req, res)=> {
-  console.log('a delete request');
-  const id = Number(req.params.id);
-  drinks = drinks.filter(drink => drink.id !== id);
-  console.log('size of drinks is', drinks.length);
-  res.status(204).end();
-});*/
+app.delete('/api/drinks/:id', (request, response, next)=> {
+  const id=request.params.id;
+  console.log('a delete request for ', id);
+
+  Drink.findByIdAndRemove(id)
+    .then(result => {
+      response.status(204).end();
+    })
+    .catch(error => next(error));
+});
 
 __dirname = path.resolve(path.dirname(''));
 app.get('/*', function response(req, res) {
@@ -101,6 +104,19 @@ const unknownEndpoint = (req, res) => {
 };
 
 app.use(unknownEndpoint);
+
+const errorHandler =(error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' });
+  }
+  //if it  is not a CastError, pass on to the default exprs errorHandler
+  next(error);
+};
+
+
+app.use(errorHandler);
 
 const PORT = 3003;
 app.listen(PORT);
