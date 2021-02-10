@@ -1,7 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const { currentLocalDateTime, getAllPropertyNames } = require('./utility/helperFunctions');
+const { currentLocalDateTime } = require('./utility/helperFunctions');
 const cors = require('cors');
 const Drink = require('./database_models/drink');
 const app = express();
@@ -60,9 +60,13 @@ app.post('/api/drinks', (request, response) => {
     'ingredients': body.ingredients,
     'steps': body.steps
   });
+
   drink.save().then(savedDrink => {
     console.log('drink jas just been saved as-- ', savedDrink);
     response.json(savedDrink);
+  }).catch(error => {
+    console.error(error.message);
+    console.log(currentLocalDateTime());
   });
 });
 
