@@ -31,11 +31,14 @@ drinksRouter.get('/:id', (request, response, next) => {
     });
 });
 
-drinksRouter.post('/', (request, response) => {
+//Add drinks is not needed atm so comment out. When employed, rememember to
+//TODO: check token to see if whoever is attemptomg to upload should have access to do so.
+
+/*drinksRouter.post('/', (request, response) => {
   const body = request.body;
-  /*TODO: when users are able to add their own drinks, some of the drink params
+  TODO: when users are able to add their own drinks, some of the drink params
     will be hard for them to add so make the front end so that they can do so
-    easily. e.g a dropdown for method since they may not know what it is*/
+    easily. e.g a dropdown for method since they may not know what it is
 
   if (!body.name | !body.ingredients | !body.glass | !body.imageUrl | !body.steps | !body.credits) {
     logger.error('the new drink object is missing some values', body);
@@ -65,9 +68,12 @@ drinksRouter.post('/', (request, response) => {
     logger.error(error.message);
     logger.error(currentLocalDateTime());
   });
-});
+});*/
 
-drinksRouter.delete('/:id', (request, response, next) => {
+
+//Add drinks is not needed atm so comment out. When employed, rememember to
+//TODO: check token to see if whoever is attemptomg to upload should have access to do so.
+/*drinksRouter.delete('/:id', (request, response, next) => {
   const id = request.params.id;
   logger.info('a delete request for ', id);
 
@@ -76,7 +82,7 @@ drinksRouter.delete('/:id', (request, response, next) => {
       response.status(204).end();
     })
     .catch(error => next(error));
-});
+});*/
 
 
 module.exports= drinksRouter;
