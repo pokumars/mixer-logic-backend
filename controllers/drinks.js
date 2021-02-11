@@ -1,17 +1,19 @@
 const drinksRouter = require('express').Router();
+const Drink = require('../database_models/drink');
+const logger = require('../utility/logger');
 
 // get all drinks
-app.get('/', (request, response) => {
+drinksRouter.get('/', (request, response) => {
     console.time('fetch drinks');
     Drink.find({}).then(drinks => {
         //console.trace();
-        console.log('size of drinks is', drinks.length);
+        logger.info('size of drinks is', drinks.length);
         response.json(drinks);
         console.timeEnd('fetch drinks');
     });
 });
 
-app.post('/', (request, response) => {
+drinksRouter.post('/', (request, response) => {
     const body = request.body;
     /*TODO: when users are able to add their own drinks, some of the drink params
     will be hard for them to add so make the front end so that they can do so
@@ -39,20 +41,20 @@ app.post('/', (request, response) => {
     });
 
     drink.save().then(savedDrink => {
-        console.log('drink jas just been saved as-- ', savedDrink);
+        logger.info('drink has just been saved as-- ', savedDrink);
         response.json(savedDrink);
     }).catch(error => {
         console.error(error.message);
-        console.log(currentLocalDateTime());
+        logger.info(currentLocalDateTime());
     });
 });
 
-app.get('/:id', (request, response, next) => {
+drinksRouter.get('/:id', (request, response, next) => {
     //TODO: make a good landing page for when the drinkk cant be found. maybe spinner and and after 3 seconds a redirect to 404 page
     Drink.findById(request.params.id)
         .then(drink => {
             if (drink) {
-                console.log(drink.name, 'has been fetched from db. Its id is--->', drink.id);
+                logger.info(drink.name, 'has been fetched from db. Its id is--->', drink.id);
                 response.json(drink);
             } else {
                 response.status(404).end();
@@ -63,9 +65,9 @@ app.get('/:id', (request, response, next) => {
         });
 });
 
-app.delete('/:id', (request, response, next) => {
+drinksRouter.delete('/:id', (request, response, next) => {
     const id = request.params.id;
-    console.log('a delete request for ', id);
+    logger.info('a delete request for ', id);
 
     Drink.findByIdAndRemove(id)
         .then(result => {
