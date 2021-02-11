@@ -4,12 +4,12 @@ const logger = require('../utility/logger');
 
 // get all drinks
 drinksRouter.get('/', (request, response) => {
-    console.time('fetch drinks');
+    //console.time('fetch drinks');
     Drink.find({}).then(drinks => {
         //console.trace();
         logger.info('size of drinks is', drinks.length);
         response.json(drinks);
-        console.timeEnd('fetch drinks');
+        //console.timeEnd('fetch drinks');
     });
 });
 
@@ -20,7 +20,7 @@ drinksRouter.post('/', (request, response) => {
     easily. e.g a dropdown for method since they may not know what it is*/
 
     if (!body.name | !body.ingredients | !body.glass | !body.imageUrl | !body.steps | !body.credits) {
-        console.error('the new drink object is missing some values', body);
+        logger.error('the new drink object is missing some values', body);
         return response.status(400).json({
             error: 'the new drink object is missing some values'
         });
@@ -44,8 +44,8 @@ drinksRouter.post('/', (request, response) => {
         logger.info('drink has just been saved as-- ', savedDrink);
         response.json(savedDrink);
     }).catch(error => {
-        console.error(error.message);
-        logger.info(currentLocalDateTime());
+        logger.error(error.message);
+        logger.error(currentLocalDateTime());
     });
 });
 

@@ -28,7 +28,8 @@ const drinkSchema = new mongoose.Schema({
   page: Number,
   credits:[[String]],
   ingredients: { type:[[]], required: true },
-  steps: [{ type:String, required: true }]
+  steps: [{ type:String, required: true }],
+  author: { type:String, min: 3 },
 });
 
 drinkSchema.set('toJSON', {
