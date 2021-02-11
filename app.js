@@ -1,9 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const path = require('path');
-const { currentLocalDateTime } = require('./utility/helperFunctions');
 const cors = require('cors');
 const drinksRouter = require('./controllers/drinks');
+const usersRouter = require('./controllers/users');
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -15,12 +15,14 @@ app.use(morgan((tokens, req, res) => {
   return[
     tokens.method(req, res),
     tokens.url(req, res),
+    tokens.body(req, res, 'content-length'),
     tokens.status(req, res),
     tokens.res(req, res, 'content-length'), '-',
     tokens['response-time'](req, res), 'ms',
     tokens['date'](req, res)
   ].join(' ');
 }));
+app.use('/api/users', usersRouter);
 app.use('/api/drinks', drinksRouter);
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
@@ -51,4 +53,4 @@ const errorHandler =(error, request, response, next) => {
 app.use(errorHandler);
 
 
-module.exports = app
+module.exports = app;

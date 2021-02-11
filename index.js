@@ -1,6 +1,6 @@
 const config = require('./utility/config');
 const app = require('./app');
-const logger = require('./utility/logger')
+const logger = require('./utility/logger');
 
 
 app.listen(config.PORT, () =>{
