@@ -1,10 +1,10 @@
-require('dotenv').config()
+const config = require('../utility/config')
 const mongoose = require('mongoose');
 const logger = require('../utility/logger');
 const { currentLocalDateTime } = require('../utility/helperFunctions');
 
-const url = process.env.MONGODB_URI;
-logger.info('connecting to', url);
+const url = config.MONGODB_URI
+logger.info('connecting to', url.substring(0,40), '.........');
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(result => {

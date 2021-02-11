@@ -23,7 +23,7 @@ app.use(morgan((tokens, req, res) => {
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
 
-
+// get all drinks
 app.get('/api/drinks', (request, response) => {
   console.time('fetch drinks');
   Drink.find({}).then(drinks => {
@@ -75,7 +75,7 @@ app.get('/api/drinks/:id', (request, response, next) => {
   Drink.findById(request.params.id)
     .then(drink => {
       if (drink) {
-        console.log(drink.name, 'has been fetched from db');
+        console.log(drink.name, 'has been fetched from db. Its id is--->' , drink.id);
         response.json(drink);
       } else {
         response.status(404).end();
