@@ -1,15 +1,19 @@
 const express = require('express');
 const morgan = require('morgan');
+const errorHandler = require('./utility/middleware').errorHandler;
 const path = require('path');
 const cors = require('cors');
 const drinksRouter = require('./controllers/drinks');
 const usersRouter = require('./controllers/users');
+const logger = require('./utility/logger');
+const config = require('./utility/config');
+const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static('build'));
 
-morgan.token('body', (req,res) => JSON.stringify(req.body));
+morgan.token('body', (req, res) => JSON.stringify(req.body));
 //TODO: the time keeps logging same time
 app.use(morgan((tokens, req, res) => {
   return[
@@ -22,6 +26,21 @@ app.use(morgan((tokens, req, res) => {
     tokens['date'](req, res)
   ].join(' ');
 }));
+
+const url = config.MONGODB_URI;
+logger.info('connecting to', url.substring(0,40), '.........');
+
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+  .then(result => {
+    logger.info('connected to MongoDB');
+  })
+  .catch(error => {
+    console.trace();
+    logger.error('error connecting to MongoDB:', error.message);
+    logger.error(' The above error occurred at', currentLocalDateTime());
+  });
+
+
 app.use('/api/users', usersRouter);
 app.use('/api/drinks', drinksRouter);
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
@@ -38,17 +57,6 @@ const unknownEndpoint = (req, res) => {
 };
 
 app.use(unknownEndpoint);
-
-const errorHandler =(error, request, response, next) => {
-  console.error(error.message);
-
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' });
-  }
-  //if it  is not a CastError, pass on to the default exprs errorHandler
-  next(error);
-};
-
 
 app.use(errorHandler);
 

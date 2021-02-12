@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:ui": "rm -rf build && cd ../mixer-logic/ && git pull && npm run build --prod && cp -r build ../mixer-logic-backend/",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy", 
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "deploy": "git push heroku main",
     "pm2:deploy:full": "git pull && npm run build:ui && npm run pm2:start",
     "pm2:start": "sudo pm2 delete 'mixer-logic' && sudo pm2 start index.js --name 'mixer-logic'",
@@ -17,6 +17,7 @@
   "author": "Oheneba Poku-Marboah",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

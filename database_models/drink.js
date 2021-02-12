@@ -1,20 +1,6 @@
-const config = require('../utility/config')
-const mongoose = require('mongoose');
-const logger = require('../utility/logger');
 const { currentLocalDateTime } = require('../utility/helperFunctions');
+const mongoose = require('mongoose');
 
-const url = config.MONGODB_URI
-logger.info('connecting to', url.substring(0,40), '.........');
-
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-  .then(result => {
-    logger.info('connected to MongoDB');
-  })
-  .catch(error => {
-    console.trace();
-    logger.error('error connecting to MongoDB:', error.message);
-    logger.error(' The above error occurred at', currentLocalDateTime());
-  });
 
 //TODO the data sent from the frontend should match this on structure
 const drinkSchema = new mongoose.Schema({
