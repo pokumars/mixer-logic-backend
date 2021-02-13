@@ -1,7 +1,7 @@
 const drinksRouter = require('express').Router();
 const Drink = require('../database_models/drink');
 const logger = require('../utility/logger');
-const { currentLocalDateTime } = require('../utility/helperFunctions');
+//const { currentLocalDateTime } = require('../utility/helperFunctions');
 
 
 // get all drinks

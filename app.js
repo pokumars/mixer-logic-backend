@@ -7,6 +7,7 @@ const drinksRouter = require('./controllers/drinks');
 const usersRouter = require('./controllers/users');
 const logger = require('./utility/logger');
 const config = require('./utility/config');
+const currentLocalDateTime = require('./utility/helperFunctions').currentLocalDateTime;
 const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());

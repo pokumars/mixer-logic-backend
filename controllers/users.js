@@ -3,9 +3,10 @@ const usersRouter = require('express').Router();
 const logger = require('../utility/logger');
 const bcrypt = require('bcrypt');
 const config = require('../utility/config');
+const User = require('../database_models/user');
 
 //register
-usersRouter.post('/', async (request, response ) => {
+usersRouter.post('/', async (request, response, next ) => {
   try {
     const body = request.body;
 
@@ -25,10 +26,14 @@ usersRouter.post('/', async (request, response ) => {
       favourites: []
     };
 
-    response.status(201).send(userObj);
+    const user = new User(userObj);
+
+    const savedUser = await user.save();
+
+    response.status(201).send(savedUser);
 
   } catch (error) {
-    logger.error(error);
+    next(error);
   }
 });
 

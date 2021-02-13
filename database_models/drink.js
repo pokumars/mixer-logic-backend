@@ -1,4 +1,4 @@
-const { currentLocalDateTime } = require('../utility/helperFunctions');
+//const { currentLocalDateTime } = require('../utility/helperFunctions');
 const mongoose = require('mongoose');
 
 
@@ -23,8 +23,8 @@ drinkSchema.set('toJSON', {
     //reassign the default._id to be id and to string. It is otherwise an object and that may be problematic when writing tests
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id; //remove._id
-    delete returnedObject.__v; //remove __v which is the version number of the db
-  }
+  },
+  versionKey: false//removes __v which is the version number of the db
 });
 
 module.exports = mongoose.model('Drink', drinkSchema);
