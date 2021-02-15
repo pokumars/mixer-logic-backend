@@ -17,9 +17,11 @@ if (process.env.NODE_ENV === 'test') {
 const PORT = process.env.PORT;
 
 const SALTROUNDS = 10;
+const TOKEN_SIGNATURE = process.env.TOKEN_SIGNATURE;
 
 module.exports= {
   MONGODB_URI,
   PORT,
-  SALTROUNDS
+  SALTROUNDS,
+  TOKEN_SIGNATURE
 };
