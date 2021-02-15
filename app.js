@@ -1,10 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
 const errorHandler = require('./utility/middleware').errorHandler;
+const tokenExtractor = require('./utility/middleware').tokenExtractor;
 const path = require('path');
 const cors = require('cors');
 const drinksRouter = require('./controllers/drinks');
 const usersRouter = require('./controllers/users');
+const loginRouter = require('./controllers/login');
 const logger = require('./utility/logger');
 const config = require('./utility/config');
 const currentLocalDateTime = require('./utility/helperFunctions').currentLocalDateTime;
@@ -12,6 +14,7 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(tokenExtractor);
 app.use(express.static('build'));
 
 morgan.token('body', (req, res) => JSON.stringify(req.body));
@@ -44,6 +47,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
 
 app.use('/api/users', usersRouter);
 app.use('/api/drinks', drinksRouter);
+app.use('/api/login', loginRouter);
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
 
