@@ -15,7 +15,7 @@ loginRouter.post('/', async (request, response, next) => {
       return response.status(401).send({ message: 'Access denied! There is no such user in our system' });
     }
 
-   //compare passwordhash and decrypted password
+    //compare passwordhash and decrypted password
     const passwordCorrect = await bcrypt.compare(body.password, user.passwordHash);
 
     //password is wrong
