@@ -25,12 +25,16 @@ usersRouter.post('/', async (request, response, next ) => {
       username: body.username,
       passwordHash: passwordHash,
       email: body.email,
-      favourites: []
+      favourites: [],
+      myApprovedDrinkRecipes: [],
+      myPendingDrinkRecipes: []
     };
 
     const user = new User(userObj);
+    //console.log('---------- user ----------',user);
 
     const savedUser = await user.save();
+    //console.log('---------- savedUser ----------',savedUser);
 
     response.status(201).send(savedUser);
 

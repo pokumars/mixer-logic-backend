@@ -2,7 +2,7 @@ const { getAllPropertyNames } = require('./helperFunctions');
 const  logger = require('./logger');
 
 const errorHandler =(error, request, response, next) => {
-  logger.error('*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-* \n logged in errorHandler', error);
+  logger.error('*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*  logged in errorHandler \n', error);
   //console.log('------------------------------',getAllPropertyNames(error));
 
   if (error.name === 'CastError') {

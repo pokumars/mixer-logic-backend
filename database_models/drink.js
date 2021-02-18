@@ -7,7 +7,7 @@ const drinkSchema = new mongoose.Schema({
   name: { type:String, min: 3, required: true },
   imageUrl: { type:String, min: 6, required: true },
   glass:  { type:String, min: 3, required: true },
-  method: { type:[String], required: true },
+  method: { type:[String], enum:[ 'stir', 'build', 'muddle', 'shake', 'blend' ], required: true },
   garnish: { type:[String], required: true },
   categories: { type:[String], required: true },
   alcohols: { type:[String], required: true },
