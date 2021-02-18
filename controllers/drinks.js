@@ -33,10 +33,10 @@ drinksRouter.get('/:id', (request, response, next) => {
 
 //Add drinks is not needed atm so comment out. When employed, rememember to
 //TODO: check token to see if whoever is attemptomg to upload should have access to do so.
-
-/*drinksRouter.post('/', (request, response) => {
+/*
+drinksRouter.post('/', (request, response) => {
   const body = request.body;
-  TODO: when users are able to add their own drinks, some of the drink params
+  /*TODO: when users are able to add their own drinks, some of the drink params
     will be hard for them to add so make the front end so that they can do so
     easily. e.g a dropdown for method since they may not know what it is
 
@@ -66,7 +66,7 @@ drinksRouter.get('/:id', (request, response, next) => {
     response.json(savedDrink);
   }).catch(error => {
     logger.error(error.message);
-    logger.error(currentLocalDateTime());
+    //logger.error(currentLocalDateTime());
   });
 });*/
 
