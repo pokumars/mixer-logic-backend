@@ -9,7 +9,7 @@
     "deploy": "git push heroku main",
     "pm2:deploy:full": "git pull && npm run build:ui && npm run pm2:start",
     "pm2:start": "sudo pm2 delete 'mixer-logic' && sudo pm2 start index.js --name 'mixer-logic'",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "start": "cross-env NODE_ENV=production node index.js",
     "lint": "eslint .",
     "dev": "cross-env NODE_ENV=development nodemon index.js"
@@ -29,6 +29,8 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "eslint": "^7.8.1",
-    "nodemon": "^2.0.4"
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.4",
+    "supertest": "^6.1.3"
   }
 }
