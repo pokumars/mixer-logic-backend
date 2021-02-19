@@ -20,7 +20,7 @@ loginRouter.post('/', async (request, response, next) => {
 
     //password is wrong
     if (!passwordCorrect) {
-      return response.status(401).send({ message: ' The password and username does not match' });
+      return response.status(401).send({ message: 'The password and username does not match' });
     }
 
     //create token
