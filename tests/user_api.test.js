@@ -30,7 +30,7 @@ beforeAll(async () => {
 
 describe('Registration tests', () => {
   test('should register successfully and return some properties', async () => {
-    const response = await api.post('/api/users')
+    const response = await api.post('/api/register')
       .send(testHelper.testUser2)
       .expect(201);
 
@@ -51,7 +51,7 @@ describe('Registration tests', () => {
 
   test('should reject if username is too short ', async () => {
     //short username
-    await api.post('/api/users')
+    await api.post('/api/register')
       .send({
         username: 'de',
         email: 'asdkk@dguiugfgd.com',
@@ -70,7 +70,7 @@ describe('Registration tests', () => {
 
   test('should reject if password is too short ', async () => {
     //short username
-    await api.post('/api/users')
+    await api.post('/api/register')
       .send({
         username: 'rhododendron',
         email: 'assfdkk@dgudfdiugfgd.com',
@@ -88,7 +88,7 @@ describe('Registration tests', () => {
 
   test('should reject registration if username exists ', async () => {
     //short username
-    await api.post('/api/users')
+    await api.post('/api/register')
       .send({
         username: 'rhododendron',
         email: 'assfdkk@dgudfdiugfgd.com',
@@ -107,7 +107,7 @@ describe('Registration tests', () => {
   test('should reject registration if username exists', async () => {
     //The emailshould also be unique so put a different email that isnt testUser2 email so it doesnt fail based on an email that already exists.
     const testEmailAddress = 'johnnycash@jonjoshelvey.com';
-    await api.post('/api/users')
+    await api.post('/api/register')
       .send({
         username: testHelper.testUser2.username,
         email: testEmailAddress,
@@ -126,7 +126,7 @@ describe('Registration tests', () => {
   test('should reject registration if email exists', async () => {
     //The username should also be unique so put a different username that isnt testUser2 username so it doesnt fail based on an username that already exists.
     const testUsername = 'jonjoShelvey125';
-    await api.post('/api/users')
+    await api.post('/api/register')
       .send({
         username: testUsername,
         email: testHelper.testUser2.email,
@@ -147,7 +147,7 @@ describe('Registration tests', () => {
 
 describe('Login related tests', () => {
   test('should register successfully and return some properties', async () => {
-    const response = await api.post('/api/users')
+    const response = await api.post('/api/register')
       .send(testHelper.testUser1)
       .expect(201);
 

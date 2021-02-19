@@ -4,9 +4,12 @@ const errorHandler = require('./utility/middleware').errorHandler;
 const tokenExtractor = require('./utility/middleware').tokenExtractor;
 const path = require('path');
 const cors = require('cors');
+
 const drinksRouter = require('./controllers/drinks');
 const usersRouter = require('./controllers/users');
 const loginRouter = require('./controllers/login');
+const registrationRouter = require('./controllers/register');
+
 const logger = require('./utility/logger');
 const config = require('./utility/config');
 const currentLocalDateTime = require('./utility/helperFunctions').currentLocalDateTime;
@@ -44,10 +47,11 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFind
     logger.error(' The above error occurred at', currentLocalDateTime());
   });
 
-
+app.use('/api/register', registrationRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/drinks', drinksRouter);
 app.use('/api/login', loginRouter);
+
 //app.use(requestLogger);//this line must come after app.use(express.json()); because requestLogger needs json to work.
 
 
