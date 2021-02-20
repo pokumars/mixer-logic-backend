@@ -4,6 +4,7 @@ const logger = require('../utility/logger');
 const config = require('../utility/config');
 const User = require('../database_models/user');
 const bcrypt = require('bcrypt');
+const messages = require('../utility/messages');
 
 
 //register
@@ -43,11 +44,36 @@ registrationRouter.post('/', async (request, response, next ) => {
 });
 
 //check if email isnt taken already
-registrationRouter.get('/check-email-unique', async() => {
+registrationRouter.get('/check-email-unique/:email', async(request, response, next) => {
+  try {
+    const emailParam = request.params.email;
+    const result = await User.find({ email: emailParam });
 
+    console.log(result);
+    if (result.length === 0) {//no user has that username
+      return response.status(200).json({ message: messages.email_unique_response });
+    } else {
+      return response.status(400).json({ message: messages.email_not_unique_response });
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
 //check if username is available
+registrationRouter.get('/check-username-unique/:username', async(request, response, next) => {
+  try {
+    const usernameParam = request.params.username;
+    const result = await User.find({ username: usernameParam });
 
+    if (result.length === 0) {//no user has that username
+      return response.status(200).json({ message: messages.username_unique_response });
+    } else {
+      return response.status(400).json({ message: messages.username_not_unique_response });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = registrationRouter;

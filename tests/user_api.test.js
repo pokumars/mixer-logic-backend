@@ -5,7 +5,8 @@ const app = require('../app');
 const mongoose = require('mongoose');
 const testHelper = require('./testHelper');
 const User = require('../database_models/user');
-const Drink = require('../database_models/drink');
+//const Drink = require('../database_models/drink');
+const messages = require('../utility/messages');
 
 
 const api = supertest(app);
@@ -21,7 +22,6 @@ const loginTestUser1AndGetToken = async () => {
   const userObj = user.body.user;
   return { userObj, token };
 };
-const drinks = Drink.find({});
 
 beforeAll(async () => {
   await User.deleteOne({ username: testHelper.testUser1.username });
@@ -35,6 +35,35 @@ describe('Registration tests', () => {
       .expect(201);
 
     expect(response.body.username).toBe(testHelper.testUser2.username);
+  });
+
+  test('should give a 400 status when username is already in use', async () => {
+    const response = await api.get('/api/register/check-username-unique/pokumars1')
+      .expect(400);
+
+    expect(response.body.message).toBe(messages.username_not_unique_response);
+  });
+
+  test('should give a 200 status when username is available', async () => {
+    const response = await api.get('/api/register/check-username-unique/someRandomName')
+      .expect(200);
+
+    expect(response.body.message).toBe( messages.username_unique_response);
+  });
+
+  test('should give a 400 status when email is already in use', async () => {
+    //TODO: make the email dynamic
+    const response = await api.get('/api/register/check-email-unique/postman2@postman.fi')
+      .expect(400);
+
+    expect(response.body.message).toBe(messages.email_not_unique_response);
+  });
+
+  test('should give a 200 status when email is available', async () => {
+    const response = await api.get('/api/register/check-email-unique/smth@smth.com')
+      .expect(200);
+
+    expect(response.body.message).toBe(messages.email_unique_response);
   });
 
   test('should return token and user properties after login', async () => {
@@ -62,7 +91,6 @@ describe('Registration tests', () => {
     //It shouldnt be in the db
     await User.find({ username: 'de' }, (err, res) => {
       if (err) console.error(err);
-      //console.log(res);
       expect(res).toHaveLength(0);
     });
     //console.log('-------- checkInDb -----', checkInDb);
@@ -81,7 +109,6 @@ describe('Registration tests', () => {
     //It shouldnt be in the db
     await User.find({ username: 'rhododendron' }, (err, res) => {
       if (err) console.error(err);
-      console.log('--------res -------', res);
       expect(res).toHaveLength(0);
     });
   });
@@ -99,7 +126,6 @@ describe('Registration tests', () => {
     //It shouldnt be in the db
     await User.find({ username: 'rhododendron' }, (err, res) => {
       if (err) console.error(err);
-      //console.log('--------res -------', res);
       expect(res).toHaveLength(0);
     });
   });
@@ -199,7 +225,7 @@ describe('Login related tests', () => {
     }).expect(401);
 
     expect(response.body.message).toBeDefined();
-    expect(response.body.message).toBe('The password and username does not match');
+    expect(response.body.message).toBe(messages.password_and_username_mismatch);
   });
 
   test('should return 401 and message when wrong username is given', async () => {
@@ -209,7 +235,7 @@ describe('Login related tests', () => {
     }).expect(401);
 
     expect(response.body.message).toBeDefined();
-    expect(response.body.message).toBe('Access denied! There is no such user in our system');
+    expect(response.body.message).toBe(messages.no_such_user);
   });
 
 
