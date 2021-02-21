@@ -3,6 +3,7 @@ const loginRouter = require('express').Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config= require('../utility/config');
+const messages = require('../utility/messages');
 
 
 loginRouter.post('/', async (request, response, next) => {
@@ -37,6 +38,28 @@ loginRouter.post('/', async (request, response, next) => {
     next(error);
   }
 
+});
+
+loginRouter.post('/reset-password', async (request, response, next) => {
+  console.log(request.body);
+  console.log('/reset-password reached');
+
+  //decode the token and get email out of it
+
+  //find user by email
+
+  //encrypt the new password with bcrypt
+
+  //save it
+
+  //return
+
+  
+  if (condition) {
+    return response.status(200).send({ message:messages.password_change_successful });
+  } else {
+    return response.status(400);
+  }
 });
 
 module.exports = loginRouter;
