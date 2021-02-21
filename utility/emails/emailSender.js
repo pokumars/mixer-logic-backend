@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const emailTemplates = require('./emailTemplates');
 const config = require('../config');
 const fromNoReplyAddress = `"🍸No Reply mixer-logic🍸" <${config.EMAIL}>`;
-const fromAddress = `"🍸mixer-logic🍸" <${config.EMAIL}>`
+const fromAddress = `"🍸mixer-logic🍸" <${config.EMAIL}>`;
 
 let transporter = nodemailer.createTransport({
   host: 'smtp-mail.outlook.com',
@@ -14,6 +14,12 @@ let transporter = nodemailer.createTransport({
   },
 });
 
+/**
+ *
+ * @param {*} recipientAddress Recipient of the email; gotten from the db
+ * @param {*} username username of the email recipient; gotten from the db
+ * @param {*} passwordResetLink 
+ */
 const sendPasswordResetEmail= async (recipientAddress, username, passwordResetLink) => {
   try {
     // create reusable transporter object using the default SMTP transport
@@ -28,11 +34,15 @@ const sendPasswordResetEmail= async (recipientAddress, username, passwordResetLi
 
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
-    console.error();
+    console.error(error);
   }
 };
 
-
+/**
+ * 
+ * @param {*} recipientAddress Recipient of the email; gotten from the db
+ * @param {*} username username of the email recipient; gotten from the db
+ */
 const sendWelcomeEmail= async ( recipientAddress, username) => {
   try {
     // create reusable transporter object using the default SMTP transport
@@ -47,8 +57,8 @@ const sendWelcomeEmail= async ( recipientAddress, username) => {
 
     console.log('Message sent: %s', info.messageId);
   } catch (error) {
-    console.error();
+    console.error(error);
   }
 };
 
-module.exports= { sendWelcomeEmail, sendPasswordResetEmail }
+module.exports= { sendWelcomeEmail, sendPasswordResetEmail };
