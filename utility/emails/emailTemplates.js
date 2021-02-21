@@ -5,32 +5,36 @@
  * @param {*} passwordResetLink link for the password reset
  */
 const passwordResetEmail = (username, passwordResetLink) => {
-  const passwordResetEmail = `<div class="email-body" style="color: #05386B; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">
-  <h2>Hi ${username}</h2>
+  const passwordResetEmail = `  <div class="email-body" style="color: #05386B; font-family: Arial, Helvetica, sans-serif; font-size: 12px;">
+  <h2>Hi ${username},</h2>
 
   <p>
     You recently requested to reset the password of your mixer-logic credentials.
     Click on the link below to reset it.
   </p>
+  <a href="${passwordResetLink}" class="button" style="background-color: #05386B; border: none; color: white; padding: 20px 34px; text-align: center; text-decoration: none; display: inline-block; font-size: 20px; margin: 4px 2px; cursor: pointer;">Reset Password</a>
   <p>
     If you did not request a password reset, please ignore this email or reply to us
     to let us know. This password reset link is only valid for the next 20 minutes.
   </p>
+
+  <hr><br>
+  <p class="smaller-text" style="color: gray; font-size: 10px;">
+    If you are having trouble clicking the link, please
+    copy and paste the URL below into the browser window.
+  </p>
+  <p>${passwordResetLink}</p><br>
+
   <p>
     Thank you, <br>
     Oheneba and the mixer-logic Team
-  </p>
-  <hr>
-  <p class="smaller-text" style="color: gray; font-size: 8px;">
-    If you are having trouble clicking the link, please
-    copy and paste the URL below into the browser window.
   </p>
 </div>`;
 
   return passwordResetEmail;
 };
 /**
- * 
+ *
  * @param {*} username username of the recipient
  */
 const newUserWelcomeEmail = (username) => {
@@ -50,7 +54,7 @@ const newUserWelcomeEmail = (username) => {
 
 </div>`;
 
-  return newUserWelcome
+  return newUserWelcome;
 };
 
 module.exports= { passwordResetEmail, newUserWelcomeEmail };

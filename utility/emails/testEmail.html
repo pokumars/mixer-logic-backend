@@ -1,4 +1,4 @@
- <!-- I sue this file to create the email and the copy paste it into  utility\emails\emailTemplates.js-->
+<!-- I sue this file to create the email and the copy paste it into  utility\emails\emailTemplates.js-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,47 +6,64 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- <link rel="stylesheet" type="text/css" href="testEmail.css" media="screen" /> -->
+  <link rel="stylesheet" type="text/css" href="testEmail.css" media="screen" />
   <style>
-.email-body{
-  color: #05386B;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-}
+    .email-body {
+      color: #05386B;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
 
-.smaller-text{
-  color: gray;
-  font-size: 8px;
-}
+    .smaller-text {
+      color: gray;
+      font-size: 10px;
+    }
 
-    </style>
+    .button {
+      background-color: #05386B;
+      border: none;
+      color: white;
+      padding: 20px 34px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 20px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
   <title>Document</title>
 </head>
 
 <body>
   <div class="email-body">
-    <h2>Hi ${username}</h2>
+    <h2>Hi ${username},</h2>
 
     <p>
       You recently requested to reset the password of your mixer-logic credentials.
       Click on the link below to reset it.
     </p>
+    <a href="${passwordResetLink}" class="button">Reset Password</a>
     <p>
       If you did not request a password reset, please ignore this email or reply to us
       to let us know. This password reset link is only valid for the next 20 minutes.
     </p>
-    <p>
-      Thank you, <br />
-      Oheneba and the mixer-logic Team
-    </p>
-    <hr/>
+
+    <hr /><br />
     <p class="smaller-text">
       If you are having trouble clicking the link, please
       copy and paste the URL below into the browser window.
     </p>
+    <p>${passwordResetLink}</p><br />
+
+    <p>
+      Thank you, <br />
+      Oheneba and the mixer-logic Team
+    </p>
   </div>
-
-
+  <br />
+  <hr />
+  <br />
   <div class="email-body">
     <h2>Hey ${username},</h2>
     <p>I’m Oheneba, the mixer-logic creator, and I’d like to thank you for signing up for our service.</p>
