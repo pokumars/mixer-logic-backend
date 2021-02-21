@@ -1,0 +1,11 @@
+/*use this to just make the emails*/
+.email-body{
+  color: #05386B;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+}
+
+.smaller-text{
+  color: gray;
+  font-size: 8px;
+}
