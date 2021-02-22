@@ -16,6 +16,7 @@ userSchema.plugin(uniqueValidator,  { type: 'mongoose-unique-validator' });
 userSchema.set('toJSON',{
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
+    // make sure you never return passwordHash. This caan be used to change the user's password based on our implementation
     delete returnedObject.passwordHash;
     delete returnedObject._id;
   },

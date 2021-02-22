@@ -20,11 +20,12 @@ let transporter = nodemailer.createTransport({
  * @param {*} username username of the email recipient; gotten from the db
  * @param {*} passwordResetLink 
  */
-const sendPasswordResetEmail= async (recipientAddress, username, passwordResetLink) => {
+const sendPasswordResetEmail = async (recipientAddress, username, passwordResetLink) => {
   try {
     // create reusable transporter object using the default SMTP transport
 
     // send mail with defined transport object
+    //info is the return obj after the sendmail has run
     let info = await transporter.sendMail({
       from: fromNoReplyAddress, // sender address
       to: `${recipientAddress}`, // list of receivers
@@ -33,17 +34,30 @@ const sendPasswordResetEmail= async (recipientAddress, username, passwordResetLi
     });
 
     console.log('Message sent: %s', info.messageId);
+    console.log('info object', info);
+    //example info object
+    /*info object {
+      accepted: [ 'fsdfds@smth.com' ],
+      rejected: [],
+      envelopeTime: 132,
+      messageTime: 386,
+      messageSize: 1882,
+      response: '250 2.0.0 OK <ALOTOF_CHARS@SOMETHING.something.prod.somewhere.com> [Hostname=ALOTOF_CHARS.something.prod.somewhere.com]',
+      envelope: { from: 'someEmailAddr@somewhere.com', to: [ 'recipient@something.com' ] },
+      messageId: '<sfgrgth-397e-sdfdg-3ecd-94740751ccc4@somewhere.com>'
+    }*/
+    return info;
   } catch (error) {
     console.error(error);
   }
 };
 
 /**
- * 
+ *
  * @param {*} recipientAddress Recipient of the email; gotten from the db
  * @param {*} username username of the email recipient; gotten from the db
  */
-const sendWelcomeEmail= async ( recipientAddress, username) => {
+const sendWelcomeEmail = async (recipientAddress, username) => {
   try {
     // create reusable transporter object using the default SMTP transport
 
@@ -61,4 +75,4 @@ const sendWelcomeEmail= async ( recipientAddress, username) => {
   }
 };
 
-module.exports= { sendWelcomeEmail, sendPasswordResetEmail };
+module.exports = { sendWelcomeEmail, sendPasswordResetEmail };

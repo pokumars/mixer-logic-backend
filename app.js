@@ -22,6 +22,8 @@ app.use(express.static('build'));
 
 morgan.token('body', (req, res) => {
   if (req.body.password) {
+    //This could potential cause problems by changing the actual password in the request to redacted
+    //be careful
     req.body.password = 'redacted';
   }
   return JSON.stringify(req.body);
