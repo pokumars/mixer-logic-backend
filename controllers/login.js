@@ -77,47 +77,49 @@ loginRouter.post('/forgot-password', async (request, response, next) => {
 
 //Not implemented TODO:
 loginRouter.post('/reset-password/:passwordResetLink/:email', async (request, response, next) => {
-  logger.info(request.body);
-  logger.info('/reset-password reached');
+  try {
+    const body = request.body;
+    logger.info();
+    logger.info('/reset-password reached');
 
-  //decode the token and get email out of it
-  const passwordResetLink = request.params.passwordResetLink;
-  const requestParamEmail = request.params.email;
-  logger.info('-------request.params-------',request.params);
 
-  //find user based on the url from the client side in order to tget their passwordHash for jwt secret
-  const userInResetLink = await User.findOne({ email:requestParamEmail });
-  console.log('userInResetLink', userInResetLink);
+    const passwordResetLink = request.params.passwordResetLink;
+    const requestParamEmail = request.params.email;
+    logger.info('-------request.params-------',request.params);
 
-  const decodedToken = jwt.verify(passwordResetLink, userInResetLink.passwordHash);
-  logger.info('-------decodedToken-------',decodedToken);
+    //find user based on the url(email) from the client side in order to get their passwordHash for jwt secret
+    const userInResetLink = await User.findOne({ email:requestParamEmail });
+    console.log('userInResetLink', userInResetLink);
 
-  //find the actual user that is in the decoded token
-  const userInToken = await User.findById(decodedToken.userId);
-  console.log('userInToken', userInToken);
+    //decode the token and get userId out of it
+    const decodedToken = jwt.verify(passwordResetLink, userInResetLink.passwordHash);
+    logger.info('-------decodedToken-------',decodedToken);
 
-  logger.info('-------userInToken._id === userInResetLink._id-------',userInToken._id.toString() === userInResetLink._id.toString());
-  logger.info('-------userInToken.email === requestParamEmail-------',userInToken.email === requestParamEmail);
-  //if the user in token is the same as the user in client request param - i.e they are the one who sent the reset request
-  if (userInToken._id.toString() === userInResetLink._id.toString() && userInToken.email === requestParamEmail) {
+    //find the actual user that is in the decoded token
+    const userInToken = await User.findById(decodedToken.userId);
+    console.log('userInToken', userInToken);
 
+    //logger.info('-------userInToken._id === userInResetLink._id-------',userInToken._id.toString() === userInResetLink._id.toString());
+    //logger.info('-------userInToken.email === requestParamEmail-------',userInToken.email === requestParamEmail);
+
+
+    //if the user in token is the same as the user in client request param - i.e they are the one who sent the reset request
     //compare the userInResetLink to user id gotten from decoded token
-    return response.status(200).send({ message:messages.password_change_successful });
-  } else {
-    return response.status(400);
+    if (userInToken._id.toString() === userInResetLink._id.toString() && userInToken.email === requestParamEmail) {
+    //encrypt the new password with bcrypt
+      const passwordHash = await bcrypt.hash(body.password, config.SALTROUNDS);
+      //save it
+      const updatedUser = await User.findByIdAndUpdate(decodedToken.userId, { passwordHash }, { new: true });
+      logger.info(updatedUser);
+
+      //return
+      return response.status(200).send({ message:messages.password_change_successful });
+    } else {
+      return response.status(400);
+    }
+  } catch (error) {
+    next(error);
   }
-
-
-  //find user by email
-
-  //encrypt the new password with bcrypt
-
-  //save it
-
-  //return
-
-
-
 });
 
 module.exports = loginRouter;

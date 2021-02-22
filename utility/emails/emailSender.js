@@ -3,6 +3,7 @@ const emailTemplates = require('./emailTemplates');
 const config = require('../config');
 const fromNoReplyAddress = `"🍸No Reply mixer-logic🍸" <${config.EMAIL}>`;
 const fromAddress = `"🍸mixer-logic🍸" <${config.EMAIL}>`;
+const logger = require('../../utility/logger');
 
 let transporter = nodemailer.createTransport({
   host: 'smtp-mail.outlook.com',
@@ -33,8 +34,8 @@ const sendPasswordResetEmail = async (recipientAddress, username, passwordResetL
       html: emailTemplates.passwordResetEmail(username, passwordResetLink)
     });
 
-    console.log('Message sent: %s', info.messageId);
-    console.log('info object', info);
+    logger.info('Message sent: %s', info.messageId);
+    //logger.info('info object', info);
     //example info object
     /*info object {
       accepted: [ 'fsdfds@smth.com' ],
@@ -48,7 +49,7 @@ const sendPasswordResetEmail = async (recipientAddress, username, passwordResetL
     }*/
     return info;
   } catch (error) {
-    console.error(error);
+    logger.error(error);
   }
 };
 
