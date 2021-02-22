@@ -46,8 +46,6 @@ loginRouter.post('/forgot-password', async (request, response, next) => {
   const body = request.body;
   try {
     logger.info(request.body);
-    logger.info('/forgot-password reached');
-
     //find user by email
     const user = await User.findOne({ email: body.email });
 
@@ -79,29 +77,18 @@ loginRouter.post('/forgot-password', async (request, response, next) => {
 loginRouter.post('/reset-password/:passwordResetLink/:email', async (request, response, next) => {
   try {
     const body = request.body;
-    logger.info();
-    logger.info('/reset-password reached');
-
-
     const passwordResetLink = request.params.passwordResetLink;
     const requestParamEmail = request.params.email;
-    logger.info('-------request.params-------',request.params);
 
     //find user based on the url(email) from the client side in order to get their passwordHash for jwt secret
     const userInResetLink = await User.findOne({ email:requestParamEmail });
-    console.log('userInResetLink', userInResetLink);
 
     //decode the token and get userId out of it
     const decodedToken = jwt.verify(passwordResetLink, userInResetLink.passwordHash);
-    logger.info('-------decodedToken-------',decodedToken);
 
     //find the actual user that is in the decoded token
     const userInToken = await User.findById(decodedToken.userId);
     console.log('userInToken', userInToken);
-
-    //logger.info('-------userInToken._id === userInResetLink._id-------',userInToken._id.toString() === userInResetLink._id.toString());
-    //logger.info('-------userInToken.email === requestParamEmail-------',userInToken.email === requestParamEmail);
-
 
     //if the user in token is the same as the user in client request param - i.e they are the one who sent the reset request
     //compare the userInResetLink to user id gotten from decoded token
@@ -110,7 +97,7 @@ loginRouter.post('/reset-password/:passwordResetLink/:email', async (request, re
       const passwordHash = await bcrypt.hash(body.password, config.SALTROUNDS);
       //save it
       const updatedUser = await User.findByIdAndUpdate(decodedToken.userId, { passwordHash }, { new: true });
-      logger.info(updatedUser);
+      logger.info('-----updatedUser--------', updatedUser);
 
       //return
       return response.status(200).send({ message:messages.password_change_successful });
