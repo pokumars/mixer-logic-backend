@@ -20,7 +20,12 @@ app.use(cors());
 app.use(tokenExtractor);
 app.use(express.static('build'));
 
-morgan.token('body', (req, res) => JSON.stringify(req.body));
+morgan.token('body', (req, res) => {
+  if (req.body.password) {
+    req.body.password = 'redacted';
+  }
+  return JSON.stringify(req.body);
+});
 //TODO: the time keeps logging same time
 app.use(morgan((tokens, req, res) => {
   return[
