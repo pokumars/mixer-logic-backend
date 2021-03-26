@@ -67,4 +67,18 @@ usersRouter.put('/unlike-drink/:id', async (request, response, next) => {
   }
 });
 
+
+// like a drink
+usersRouter.post('/', async (request, response, next) => {
+  try {
+    const {  user: userObj } = await verifyToken(request, next);
+    console.log(userObj);
+
+    return response.status(200).send(userObj);
+    //return response.status(200).send({ message: 'request received' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = usersRouter;

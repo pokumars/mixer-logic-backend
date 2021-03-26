@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const TOKEN_SIGNATURE = require('./config').TOKEN_SIGNATURE;
 const User = require('../database_models/user');
-const logger = require('./logger');
 
 
 const now = new Date();
