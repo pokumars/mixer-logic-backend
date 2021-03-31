@@ -10,7 +10,7 @@
     "pm2:deploy:full": "git pull && npm run build:ui && npm run pm2:start",
     "pm2:start": "sudo pm2 delete 'mixer-logic' && sudo pm2 start index.js --name 'mixer-logic'",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start": "cross-env NODE_ENV=production node index.js",
+    "start": "node index.js",
     "lint": "eslint .",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "email:html": "node utility/emails/cssInliner.js"
