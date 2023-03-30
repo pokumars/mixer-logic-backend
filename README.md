@@ -8,8 +8,8 @@ MongoDB
 Mongoose
 jwt
 
-[check results](https://mixer-logic-backend.fly.dev)
-[Frontend code can be found at](React native version)
+[check hosted results](https://mixer-logic-backend.fly.dev)
+[Frontend code can be found at](https://github.com/pokumars/mixer-logic)
 
 ### Extra
 [React native version](https://github.com/pokumars/metropolia-mixer-rn)
