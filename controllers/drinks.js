@@ -68,8 +68,8 @@ drinksRouter.post('/', (request, response) => {
     logger.error(error.message);
     //logger.error(currentLocalDateTime());
   });
-});*/
-
+});
+*/
 
 //Add drinks is not needed atm so comment out. When employed, rememember to
 //TODO: check token to see if whoever is attemptomg to upload should have access to do so.
